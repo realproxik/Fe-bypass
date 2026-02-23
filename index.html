@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MZ EXECUTOR | Windows 7 Edition</title>
+    <style>
+        /* --- Windows 7 Aero Style CSS --- */
+        body { 
+            background: #cbd9e7; /* Classic light blue background */
+            color: #000; 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            margin: 0; 
+        }
+
+        .window-frame {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #707070;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .title-bar {
+            background: linear-gradient(to bottom, #7bb0e3 0%, #3a79b8 50%, #29609a 100%);
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .container { display: flex; flex: 1; background: #f0f0f0; }
+
+        /* Sidebar - Windows 7 Explorer style */
+        .sidebar { 
+            width: 200px; 
+            background: linear-gradient(to right, #f6f6f6, #e2e2e2);
+            border-right: 1px solid #b7b7b7;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Aero Buttons */
+        .aero-btn {
+            background: linear-gradient(to bottom, #ffffff 0%, #e1e1e1 50%, #d1d1d1 100%);
+            border: 1px solid #707070;
+            border-radius: 3px;
+            padding: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            color: black;
+        }
+
+        .aero-btn:hover {
+            background: linear-gradient(to bottom, #eaf6fd 0%, #d9f0fc 50%, #bee6fd 100%);
+            border-color: #3c7fb1;
+        }
+
+        .run-btn { font-weight: bold; border: 1.5px solid #3a79b8; }
+
+        /* Editor - White Background */
+        textarea { 
+            flex: 1;
+            background: #ffffff;
+            color: #000;
+            border: none;
+            padding: 15px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+        }
+
+        /* Result Popup (Windows 7 Dialog) */
+        #preview-overlay {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            justify-content: center; align-items: center;
+        }
+
+        .dialog-box {
+            background: #f0f0f0;
+            width: 320px;
+            border: 1px solid #3a79b8;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .p-body { padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+
+        .win7-input {
+            border: 1px solid #abadb3;
+            padding: 5px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="window-frame">
+    <div class="title-bar">
+        <span>MZ EXECUTOR - Windows 7 Edition</span>
+        <div style="display:flex; gap: 5px;">
+            <button onclick="location.reload()" style="background:#e1e1e1; border:1px solid #707070; cursor:pointer;">_</button>
+            <button style="background:#e81123; color:white; border:none; cursor:pointer;">X</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <button class="aero-btn run-btn" onclick="runMZ()">▶ RUN SCRIPT</button>
+            
+            <p style="font-size: 11px; color: #555; margin: 10px 0 5px 0;">Downloads:</p>
+            <a href="MZ_Executor_PC.exe" download class="aero-btn">💻 MZ.exe (Windows)</a>
+            <a href="MZ_Executor_Mobile.apk" download class="aero-btn">🤖 MZ.apk (Android)</a>
+            
+            <button class="aero-btn" style="margin-top:auto;" onclick="document.getElementById('editor').value=''">New File</button>
+        </div>
+
+        <textarea id="editor" spellcheck="false">AddGui("MZ_Engine")
+AddTextbox:ConnectoGui("MZ_Engine")
+Textbox.Text = Maded by Mz
+AddBtn("ClearNow")
+MouseClicked.ClearNow(Function:NYTE):Connect.Does
+MouseClick:Connect*textbox~text
+Textbox.Text = ""
+End</textarea>
+    </div>
+</div>
+
+<div id="preview-overlay">
+    <div class="dialog-box">
+        <div class="title-bar">
+            <span id="title-text">Execution Result</span>
+            <button onclick="closePreview()" style="background:#e1e1e1; border:none; cursor:pointer; padding: 0 5px;">X</button>
+        </div>
+        <div id="render-area" class="p-body"></div>
+    </div>
+</div>
+
+<script>
+    function runMZ() {
+        const code = document.getElementById('editor').value;
+        const render = document.getElementById('render-area');
+        render.innerHTML = ""; 
+
+        const guiMatch = code.match(/AddGui\("([^"]+)"\)/);
+        const guiName = guiMatch ? guiMatch[1] : "MZ_Window";
+        document.getElementById('title-text').innerText = guiName;
+
+        let mainInput = null;
+        if (code.includes(`AddTextbox:ConnectoGui("${guiName}")`)) {
+            mainInput = document.createElement('input');
+            mainInput.className = "win7-input";
+            const textMatch = code.match(/Textbox\.Text = (.*)/);
+            mainInput.value = textMatch ? textMatch[1].trim() : "";
+            render.appendChild(mainInput);
+        }
+
+        const btnMatch = code.match(/AddBtn\("([^"]+)"\)/);
+        if (btnMatch) {
+            const bName = btnMatch[1];
+            const btn = document.createElement('button');
+            btn.className = "aero-btn";
+            btn.innerText = bName;
+
+            btn.onclick = function() {
+                const blockRegex = new RegExp(`MouseClicked\\.${bName}[\\s\\S]*?End`);
+                const action = code.match(blockRegex);
+                if (action && action[0].includes("MouseClick:Connect*textbox~text")) {
+                    if (action[0].includes('Textbox.Text = ""')) {
+                        if (mainInput) mainInput.value = "";
+                    }
+                }
+            };
+            render.appendChild(btn);
+        }
+        document.getElementById('preview-overlay').style.display = "flex";
+    }
+
+    function closePreview() {
+        document.getElementById('preview-overlay').style.display = "none";
+    }
+</script>
+
+</body>
+</html>
