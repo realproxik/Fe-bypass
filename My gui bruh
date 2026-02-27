@@ -1,0 +1,115 @@
+local MainModule = {}
+
+function MainModule.CreateGui(player)
+	local PlayerGui = player:WaitForChild("PlayerGui")
+	
+	-- Main UI Container
+	local ScreenGui = Instance.new("ScreenGui")
+	ScreenGui.Name = "ActionGui"
+	ScreenGui.Parent = PlayerGui
+	
+	local Frame = Instance.new("ScrollingFrame")
+	Frame.Size = UDim2.new(0, 200, 0, 300)
+	Frame.Position = UDim2.new(0.05, 0, 0.3, 0)
+	Frame.CanvasSize = UDim2.new(0, 0, 2, 0)
+	Frame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+	Frame.Parent = ScreenGui
+	
+	local UIListLayout = Instance.new("UIListLayout")
+	UIListLayout.Parent = Frame
+	UIListLayout.Padding = UDim.new(0, 5)
+
+	-- Helper function to create buttons easily
+	local function createBtn(name, color)
+		local btn = Instance.new("TextButton")
+		btn.Name = name
+		btn.Text = name
+		btn.Size = UDim2.new(1, -10, 0, 40)
+		btn.BackgroundColor3 = color
+		btn.TextColor3 = Color3.new(1, 1, 1)
+		btn.Parent = Frame
+		return btn
+	end
+
+	-- 1. DECAL BUTTON
+	local btnDecal = createBtn("Decal", Color3.fromRGB(70, 130, 180))
+	btnDecal.MouseButton1Click:Connect(function()
+		local part = Instance.new("Part", workspace)
+		part.Position = player.Character.HumanoidRootPart.Position + Vector3.new(0, 5, 0)
+		local decal = Instance.new("Decal", part)
+		decal.Texture = "rbxassetid://104143103837974"
+		decal.Face = Enum.NormalId.Front
+	end)
+
+	-- 2. JUMPSTYLE BUTTON
+	local btnJump = createBtn("JumpStyle", Color3.fromRGB(150, 75, 0))
+	btnJump.MouseButton1Click:Connect(function()
+		local hum = player.Character:FindFirstChild("Humanoid")
+		if hum then
+			hum.JumpPower = 100 -- Standard is 50
+			hum.UseJumpPower = true
+		end
+	end)
+
+	-- 3. JUMPSCARE BUTTON
+	local btnScare = createBtn("Jumpscare", Color3.fromRGB(180, 0, 0))
+	btnScare.MouseButton1Click:Connect(function()
+		-- Create Scare Image
+		local img = Instance.new("ImageLabel", ScreenGui)
+		img.Size = UDim2.new(1, 0, 1, 0)
+		img.Image = "rbxassetid://107618093294376"
+		
+		-- Play First Sound
+		local sfx = Instance.new("Sound", workspace)
+		sfx.SoundId = "rbxassetid://132225475210716"
+		sfx:Play()
+		
+		task.wait(2) -- Adjust based on sound length
+		
+		-- Second Stage
+		img.Image = "rbxassetid://111044390005146"
+		task.wait(1)
+		img:Destroy()
+		sfx:Destroy()
+	end)
+
+	-- 4. PARTICLE BUTTON
+	local btnPart = createBtn("Particle", Color3.fromRGB(100, 0, 200))
+	btnPart.MouseButton1Click:Connect(function()
+		local pe = Instance.new("ParticleEmitter")
+		pe.Texture = "rbxassetid://107618093294376"
+		pe.Parent = player.Character:FindFirstChild("HumanoidRootPart")
+		task.wait(5)
+		pe:Destroy()
+	end)
+
+	-- 5. HINT BUTTON
+	local btnHint = createBtn("Hint", Color3.fromRGB(200, 200, 0))
+	btnHint.MouseButton1Click:Connect(function()
+		local hint = Instance.new("Hint", workspace)
+		hint.Text = "realProxik WAS HeRe!"
+		task.wait(4)
+		hint:Destroy()
+	end)
+
+	-- 6. F3X BUTTON
+	local btnF3X = createBtn("F3X", Color3.fromRGB(50, 200, 50))
+	btnF3X.MouseButton1Click:Connect(function()
+		-- This assumes the F3X tool is in ServerStorage or a folder
+		-- If you want the 'Real' one, you'd usually InsertService it
+		local InsertService = game:GetService("InsertService")
+		local success, model = pcall(function()
+			return InsertService:LoadAsset(142785488) -- Common F3X ID
+		end)
+		
+		if success then
+			local tool = model:FindFirstChildWhichIsA("Tool")
+			if tool then
+				tool.Parent = player.Backpack
+			end
+			model:Destroy()
+		end
+	end)
+end
+
+return MainModule
